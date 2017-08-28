@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">proto_2</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="bienvenida">Bienvenidos a la experiencia única en tendencia, visualización y compra de muebles.</string>
+</resources>
