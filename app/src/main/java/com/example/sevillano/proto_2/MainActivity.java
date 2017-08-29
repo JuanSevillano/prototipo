@@ -3,6 +3,7 @@ package com.example.sevillano.proto_2;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -35,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    private void setFragment(Fragment fr) {
+        // Getting fragment instance from context
+        android.support.v4.app.FragmentManager fManager = getSupportFragmentManager();
+        // create Fragment transaction
+        android.support.v4.app.FragmentTransaction fTransaction = fManager.beginTransaction();
+        // Replacing fragment_container
+        fTransaction.replace(R.id.content, fr);
+        // Adding to back stack
+        fTransaction.addToBackStack(null);
+        // Commit so inflates the new fragment
+        fTransaction.commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,5 +59,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
-
 }
+
+

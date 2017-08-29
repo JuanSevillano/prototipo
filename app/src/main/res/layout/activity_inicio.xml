@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@id/initio"
         android:weightSum="6">
 
         <ImageView
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:onClick="iniciar"
             android:text="@string/login"
             android:background="@android:color/transparent"
             android:padding="16dp"
@@ -44,6 +46,7 @@
 
         <Button
             android:id="@+id/registro"
+            android:onClick="registrar"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
