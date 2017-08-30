@@ -16,7 +16,8 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio);
+        setContentView(R.layout.fragment_inicio);
+        getSupportFragmentManager().beginTransaction().add(R.id.initio,Principal.newInstance("juan","sevillano"));
         continuar = (TextView) findViewById(R.id.continuar);
     }
 
@@ -24,7 +25,7 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         setFragment(Login.newInstance("juan","sevillano"));
     }
 
-    public void registrar(View v){
+    public void regirstrar(View v){
         setFragment(Login.newInstance("juan","sevillano"));
     }
 
@@ -35,18 +36,19 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         startActivity(i);
     }
 
+
     private void setFragment(Fragment fr) {
-        // Getting fragment instance from context
-        android.support.v4.app.FragmentManager fManager = getSupportFragmentManager();
         // create Fragment transaction
-        android.support.v4.app.FragmentTransaction fTransaction = fManager.beginTransaction();
+        android.support.v4.app.FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
         // Replacing fragment_container
         fTransaction.replace(R.id.initio, fr);
         // Adding to back stack
         fTransaction.addToBackStack(null);
         // Commit so inflates the new fragment
         fTransaction.commit();
+
     }
+
 
 
     @Override
