@@ -21,8 +21,8 @@ public class Principal extends Fragment {
     }
 
 
-    public static Login newInstance(String param1, String param2) {
-        Login fragment = new Login();
+    public static Principal newInstance(String param1, String param2) {
+        Principal fragment = new Principal();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);

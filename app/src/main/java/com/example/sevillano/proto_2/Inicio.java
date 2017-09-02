@@ -3,29 +3,39 @@ package com.example.sevillano.proto_2;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Inicio extends AppCompatActivity implements Login.OnFragmentInteractionListener{
+public class Inicio extends AppCompatActivity implements Login.OnFragmentInteractionListener, Principal.OnFragmentInteractionListener{
 
     TextView continuar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_inicio);
-        getSupportFragmentManager().beginTransaction().add(R.id.initio,Principal.newInstance("juan","sevillano"));
-        continuar = (TextView) findViewById(R.id.continuar);
+        setContentView(R.layout.activity_inicio);
+
+
+    continuar = (TextView) findViewById(R.id.continuar);
     }
 
     public void iniciar(View v){
-        setFragment(Login.newInstance("juan","sevillano"));
+
+        Fragment ff = Login.newInstance("juan","sevillano");
+        FragmentTransaction f = getSupportFragmentManager().beginTransaction();
+        f.replace(R.id.initio,ff);
+        //f.add(R.id.initio,Login.newInstance("juan","sevillano"));
+        f.addToBackStack(null);
+        f.commit();
+        //setFragment(Login.newInstance("juan","sevillano"));
     }
 
-    public void regirstrar(View v){
+    public void registrar(View v){
         setFragment(Login.newInstance("juan","sevillano"));
     }
 
