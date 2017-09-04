@@ -19,19 +19,16 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-
-
-    continuar = (TextView) findViewById(R.id.continuar);
+        continuar = (TextView) findViewById(R.id.continuar);
+        if(savedInstanceState == null) {
+            android.app.FragmentManager manager = getFragmentManager();
+            android.app.FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.initio, Principal.newInstance("Juan","sevillano"));
+            transaction.commit();
+        }
     }
 
     public void iniciar(View v){
-
-        Fragment ff = Login.newInstance("juan","sevillano");
-        FragmentTransaction f = getSupportFragmentManager().beginTransaction();
-        f.replace(R.id.initio,ff);
-        //f.add(R.id.initio,Login.newInstance("juan","sevillano"));
-        f.addToBackStack(null);
-        f.commit();
         //setFragment(Login.newInstance("juan","sevillano"));
     }
 
