@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,18 +19,21 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_inicio);
         continuar = (TextView) findViewById(R.id.continuar);
         if(savedInstanceState == null) {
             android.app.FragmentManager manager = getFragmentManager();
             android.app.FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.initio, Principal.newInstance("Juan","sevillano"));
+            transaction.add(R.id.initio, Principal.newInstance("Juan","sevillano"));
+            transaction.setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
         }
     }
 
+
     public void iniciar(View v){
-        //setFragment(Login.newInstance("juan","sevillano"));
+        setFragment(Login.newInstance("juan","sevillano"));
     }
 
     public void registrar(View v){
@@ -37,9 +41,9 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     }
 
     public void explorar(View v){
-        Intent i = new Intent(this,MainActivity.class);
-        String location = continuar.toString();
-        i.putExtra("ubicacion",location);
+        Intent i = new Intent(getBaseContext(),MainActivity.class);
+        //String location = continuar.toString();
+        //i.putExtra("ubicacion",location);
         startActivity(i);
     }
 
@@ -47,14 +51,17 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     private void setFragment(Fragment fr) {
         // create Fragment transaction
         android.support.v4.app.FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
+        // Adding to back stack
+        //fTransaction.addToBackStack(null);
         // Replacing fragment_container
         fTransaction.replace(R.id.initio, fr);
-        // Adding to back stack
-        fTransaction.addToBackStack(null);
+        // Removing previous loaded fragment
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.initio)).commit();
         // Commit so inflates the new fragment
         fTransaction.commit();
-
     }
+
+
 
 
 
@@ -67,4 +74,5 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
 }

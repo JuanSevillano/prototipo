@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
+    <!-- Inheriting parent theme styles and disbling titleBar -->
     <style name="notitle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
     </style>
