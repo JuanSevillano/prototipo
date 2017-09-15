@@ -1,13 +1,15 @@
 <resources>
-    <string name="app_name">proto_2</string>
+    <string name="app_name">Maderkit</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="bienvenida">Bienvenidos a la experiencia única en tendencia, visualización y compra de muebles.</string>
-    <string name="cotinuar">Explora la aplicación sin iniciar sesión</string>
+    <string name="bienvenida">¡Descubre la manera más divertida de personalizar tu espacio!</string>
+    <string name="cotinuar">Continua sin registro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="login">Iniciar sesión</string>
-    <string name="register">Registrar</string>
+    <string name="hello_blank_fragment">Dimelo paaaaapi</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Regístrate</string>
+    <string name="nombre">Maderkit</string>
+    <string name="bienvenido">Bienvenidos</string>
 </resources>
