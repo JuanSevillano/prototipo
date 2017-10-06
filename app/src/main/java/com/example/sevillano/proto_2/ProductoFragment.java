@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.sevillano.proto_2.dummy.DummyContent;
 import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,9 +78,39 @@ public class ProductoFragment extends Fragment {
             // restore index and position
             //recyclerView.setSelectionFromTop(index,top);
 
-            recyclerView.setAdapter(new MyProductoAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyProductoAdapter(getListItemData(), mListener));
         }
         return view;
+    }
+
+    private List<Producto> getListItemData() {
+        List<Producto> listViewItems = new ArrayList<Producto>();
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
+                , (float) 320.000,R.mipmap.cama_doble, false));
+
+        return listViewItems;
     }
 
 
@@ -119,6 +150,6 @@ public class ProductoFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Producto item);
     }
 }

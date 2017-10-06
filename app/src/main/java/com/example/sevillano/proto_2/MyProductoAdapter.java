@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sevillano.proto_2.ProductoFragment.OnListFragmentInteractionListener;
@@ -14,10 +15,10 @@ import java.util.List;
 
 public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Producto> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyProductoAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyProductoAdapter(List<Producto> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -32,8 +33,9 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        //holder.mIdView.setText(mValues.get(position).id);
-       // holder.mContentView.setText(mValues.get(position).content);
+        holder.precio.setText(String.valueOf(mValues.get(position).getPrecio()));
+        holder.imagen.setImageResource(mValues.get(position).getImagen());
+        holder.nombre.setText(mValues.get(position).getNombre());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +49,7 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
         });
     }
 
+
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -55,19 +58,23 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
        // public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView nombre, precio;
+        public final ImageView imagen;
+        public Producto mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             //mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            nombre = (TextView) view.findViewById(R.id.product_nombre);
+            precio = (TextView) view.findViewById(R.id.product_precio);
+            imagen = (ImageView) view.findViewById(R.id.product_img);
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + nombre.getText() + "'";
         }
     }
 }

@@ -7,11 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
 
@@ -88,12 +84,17 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
 
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Producto item) {
 
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }

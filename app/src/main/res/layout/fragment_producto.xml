@@ -8,6 +8,7 @@
 
     <ImageView
         android:layout_width="match_parent"
+        android:id="@+id/product_img"
         android:layout_height="400dp"
         android:layout_weight="5"
         android:src="@mipmap/ic_launcher" />
@@ -21,7 +22,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/id"
+            android:id="@+id/product_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -30,7 +31,7 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
-            android:id="@+id/precio"
+            android:id="@+id/product_precio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -42,6 +43,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/product_fav"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@android:color/transparent"
@@ -50,6 +52,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/product_car"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
