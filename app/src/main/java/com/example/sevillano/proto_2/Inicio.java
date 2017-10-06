@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Inicio extends AppCompatActivity implements Login.OnFragmentInteractionListener, Principal.OnFragmentInteractionListener{
+public class Inicio extends AppCompatActivity implements Login.OnFragmentInteractionListener, Principal.OnFragmentInteractionListener {
 
     TextView continuar;
 
@@ -22,47 +23,51 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_inicio);
         continuar = (TextView) findViewById(R.id.continuar);
-        if(savedInstanceState == null) {
-            android.app.FragmentManager manager = getFragmentManager();
-            android.app.FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(R.id.initio, Principal.newInstance("Juan","sevillano"));
-            transaction.setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.commit();
-        }
+
+        android.app.FragmentManager manager = getFragmentManager();
+        android.app.FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.initio, Principal.newInstance("Juan", "sevillano"));
+        transaction.setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
+
     }
 
-
-    public void iniciar(View v){
-        setFragment(Login.newInstance("juan","sevillano"));
+    @Override
+    public void onBackPressed() {
+        //android.app.Fragment myFragment = getFragmentManager().findFragmentByTag(fr.getTag());
+        //if (myFragment != null && myFragment.isVisible()) {
+        // add your code here
+        //}
+        getFragmentManager().popBackStack();
     }
 
-    public void registrar(View v){
-        setFragment(Login.newInstance("juan","sevillano"));
+    public void iniciar(View v) {
+        setFragment(Login.newInstance("juan", "sevillano"));
     }
 
-    public void explorar(View v){
-        Intent i = new Intent(getBaseContext(),MainActivity.class);
+    public void registrar(View v) {
+        setFragment(Login.newInstance("juan", "sevillano"));
+    }
+
+    public void explorar(View v) {
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
         //String location = continuar.toString();
         //i.putExtra("ubicacion",location);
         startActivity(i);
     }
 
-
     private void setFragment(Fragment fr) {
         // create Fragment transaction
         android.support.v4.app.FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
         // Adding to back stack
-        //fTransaction.addToBackStack(null);
+        fTransaction.addToBackStack(null);
         // Replacing fragment_container
-        fTransaction.replace(R.id.initio, fr);
+        fTransaction.replace(R.id.initio, fr, fr.getTag());
         // Removing previous loaded fragment
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.initio)).commit();
+        //getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.initio)).commit();
         // Commit so inflates the new fragment
         fTransaction.commit();
     }
-
-
-
 
 
     @Override
