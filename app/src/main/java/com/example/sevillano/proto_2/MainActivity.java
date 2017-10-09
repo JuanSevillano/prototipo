@@ -8,14 +8,28 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity implements ProductoFragment.OnListFragmentInteractionListener, FiltroFragment.OnFragmentInteractionListener, TendenciaFragment.OnListFragmentInteractionListener {
 
-    private static final String TAG = "MAIN ACTIVIY";
-    Parcelable state;
+    private static final String TAG = "[--MAIN ACTIVIY--]";
     private BottomNavigationView navigation;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // Making BottomNavigation
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        //Disabling shiftmode effect
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // Setting initial fragment
+        getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1)).addToBackStack(null).commit();
+
+    }
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -25,21 +39,17 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             ;
 
-
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     item.setIcon(R.mipmap.logo_nav);
                     setFragment(ProductoFragment.newInstance(1));
-                    BottomNavigationViewHelper.disableShiftMode(navigation);
                     return true;
                 case R.id.navigation_dashboard:
                     item.setIcon(R.mipmap.ra_nav);
-                    BottomNavigationViewHelper.disableShiftMode(navigation);
                     return true;
                 case R.id.navigation_notifications:
                     item.setIcon(R.mipmap.ten_nav);
                     setFragment(TendenciaFragment.newInstance());
-                    BottomNavigationViewHelper.disableShiftMode(navigation);
                     return true;
             }
             return false;
@@ -61,30 +71,22 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //mTextMessage = (TextView) findViewById(R.id.message);
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        BottomNavigationViewHelper.disableShiftMode(navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        // Getting fragment instance from context
-        android.support.v4.app.FragmentManager fManager = getSupportFragmentManager();
-        // create Fragment transaction
-        android.support.v4.app.FragmentTransaction fTransaction = fManager.beginTransaction();
-        // Replacing fragment_container
-        fTransaction.replace(R.id.filtros, FiltroFragment.newInstance());
-        fTransaction.replace(R.id.content, ProductoFragment.newInstance(1));
-        // Adding to back stack
-        fTransaction.addToBackStack(null);
-        // Commit so inflates the new fragment
-        fTransaction.commit();
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
 
+        if (count <= 1) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 
 
     @Override
     public void onListFragmentInteraction(Producto item) {
+        // Every time a Product is clicked into recyclerView
+        Toast.makeText(getBaseContext(), "Clicked Position = " + item.getNombre(), Toast.LENGTH_SHORT).show();
 
     }
 

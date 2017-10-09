@@ -4,8 +4,7 @@
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    card_view:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -23,15 +22,26 @@
             android:id="@+id/country_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_below="@+id/country_photo"
-            android:background="#1976D2"
-            android:gravity="center_horizontal"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
+            android:gravity="left"
+            android:paddingBottom="3dp"
+            android:paddingTop="2dp"
             android:text="@string/bienvenida"
-            android:textColor="#ffffff"
-            android:textSize="13sp" />
+            android:textColor="@color/tend_description"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/product_bck"
+            android:layout_marginLeft="1dp"
+            android:layout_marginBottom="2dp"
+            android:padding="2dp"
+            android:layout_alignParentLeft="true"
+            android:textSize="13sp"
+            android:layout_below="@+id/country_name"
+            android:text="cama doble"
+            android:background="@drawable/btnbck"/>
 
     </RelativeLayout>
 

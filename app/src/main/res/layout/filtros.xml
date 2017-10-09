@@ -28,7 +28,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/habitacion"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +47,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/estudios"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +66,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/mesas"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +85,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/entretenimiento"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +104,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/puertas"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
 

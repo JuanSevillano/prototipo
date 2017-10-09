@@ -7,13 +7,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.sevillano.proto_2.Registro">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Inicio login -->
+        <!-- Inicio Registro -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0px"
@@ -21,7 +20,7 @@
             app:srcCompat="@mipmap/logo" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/registro_usuario"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
@@ -33,7 +32,7 @@
             android:textColorHint="@color/white" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/registro_contra"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
@@ -45,7 +44,7 @@
             android:textColorHint="@color/white" />
 
         <EditText
-            android:id="@+id/confirmar"
+            android:id="@+id/confirmar_contra"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
@@ -58,12 +57,12 @@
 
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/registrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:background="#86ffffff"
-            android:onClick="iniciar"
+            android:onClick="registrarUsuario"
             android:text="@string/register"
             android:textAllCaps="false"
             android:layout_marginTop="16dp"

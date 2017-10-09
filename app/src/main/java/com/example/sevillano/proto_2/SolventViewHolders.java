@@ -24,6 +24,7 @@ public class SolventViewHolders extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View view) {
+
         Toast.makeText(view.getContext(), "Clicked Position = " + getPosition(), Toast.LENGTH_SHORT).show();
     }
 }

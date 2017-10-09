@@ -6,17 +6,13 @@ package com.example.sevillano.proto_2;
 
 class Producto {
     // Variables para definir un producto
-    String nombre, descripcion;
-    float precio;
-    int imagen;
-    boolean tendencia;
+    String nombre, descripcion, precio, imgUrl;
 
-    Producto(String nombre, String descripcion, float precio, int imagen, boolean tendencia) {
+    Producto(String nombre, String descripcion, String precio, String medidas, String imgUrl) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.imagen = imagen;
-        this.tendencia = tendencia;
+        this.imgUrl = imgUrl;
     }
 
     public String getNombre() {
@@ -27,11 +23,11 @@ class Producto {
         return descripcion;
     }
 
-    public float getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public int getImagen() {
-        return imagen;
+    public String getImagen() {
+        return imgUrl;
     }
 }

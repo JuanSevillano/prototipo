@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by estudiante on 30/08/17.
+ * Created by Juan D. Sevillano on 30/08/17.
  */
 
 public class Principal extends Fragment {
@@ -21,11 +21,9 @@ public class Principal extends Fragment {
     }
 
 
-    public static Principal newInstance(String param1, String param2) {
+    public static Principal newInstance() {
         Principal fragment = new Principal();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,10 +31,7 @@ public class Principal extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -46,12 +41,6 @@ public class Principal extends Fragment {
         return inflater.inflate(R.layout.fragment_inicio, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -72,7 +61,6 @@ public class Principal extends Fragment {
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

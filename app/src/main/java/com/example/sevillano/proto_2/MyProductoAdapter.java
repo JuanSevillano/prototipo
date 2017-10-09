@@ -34,15 +34,13 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.precio.setText(String.valueOf(mValues.get(position).getPrecio()));
-        holder.imagen.setImageResource(mValues.get(position).getImagen());
+        //holder.imagen.setImageResource(mValues.get(position).getImagen());
         holder.nombre.setText(mValues.get(position).getNombre());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
