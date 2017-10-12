@@ -6,4 +6,5 @@
     <color name="white">#50ffffff</color>
     <color name="product_bck">#1e000000</color>
     <color name="tend_description">#bababa</color>
+    <color name="detail">#bababa</color>
 </resources>

@@ -4,6 +4,7 @@ package com.example.sevillano.proto_2;
  * Created by Sevi on 6/10/17.
  */
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +25,8 @@ public class SolventViewHolders extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View view) {
-
-        Toast.makeText(view.getContext(), "Clicked Position = " + getPosition(), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(view.getContext(),VistaTendencia.class);
+        view.getContext().startActivity(i);
+        //Toast.makeText(view.getContext(), "Clicked Position = " + getPosition(), Toast.LENGTH_SHORT).show();
     }
 }

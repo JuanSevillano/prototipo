@@ -17,4 +17,5 @@
     <string name="puertas">Puertas</string>
     <string name="auth_failed">Lo sentimos, tu usuario no se ha podido registrar</string>
     <string name="confirmar">Las contraseñas ingresadas no coinciden</string>
+    <string name="detail_image">Producto Maderkit en vista detallada</string>
 </resources>

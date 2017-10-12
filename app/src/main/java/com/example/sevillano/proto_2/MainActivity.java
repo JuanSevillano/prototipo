@@ -1,5 +1,6 @@
 package com.example.sevillano.proto_2;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,12 +12,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity implements ProductoFragment.OnListFragmentInteractionListener, FiltroFragment.OnFragmentInteractionListener, TendenciaFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = "[--MAIN ACTIVIY--]";
     private BottomNavigationView navigation;
-
+    // Firebase
+    private StorageReference mStorageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // Setting initial fragment
         getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1)).addToBackStack(null).commit();
-
+        // Getting storage
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
 
@@ -37,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            ;
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
@@ -86,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     @Override
     public void onListFragmentInteraction(Producto item) {
         // Every time a Product is clicked into recyclerView
-        Toast.makeText(getBaseContext(), "Clicked Position = " + item.getNombre(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getBaseContext(),VistaProducto.class);
+        startActivity(intent);
+        //Toast.makeText(getBaseContext(), "Clicked Position = " + item.getNombre(), Toast.LENGTH_SHORT).show();
 
     }
 
