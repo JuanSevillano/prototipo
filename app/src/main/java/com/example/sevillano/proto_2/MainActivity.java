@@ -8,6 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
         // Making BottomNavigation
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         //Disabling shiftmode effect
@@ -49,7 +54,10 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
                     setFragment(ProductoFragment.newInstance(1));
                     return true;
                 case R.id.navigation_dashboard:
-                    item.setIcon(R.mipmap.ra_nav);
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.Mader.AppRA");
+                    if(launchIntent != null){
+                        startActivity(launchIntent);
+                    }
                     return true;
                 case R.id.navigation_notifications:
                     item.setIcon(R.mipmap.ten_nav);

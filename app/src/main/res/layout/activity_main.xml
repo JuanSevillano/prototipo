@@ -9,6 +9,14 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context="com.example.sevillano.proto_2.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bck_toolbar"
+        android:elevation="4dp"
+        android:theme="@menu/menu_main"/>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,9 +32,9 @@
                 android:id="@+id/filtros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dip"
                 android:layout_marginBottom="1dip"
-                android:layout_weight="0.3"/>
+                android:layout_marginTop="1dip"
+                android:layout_weight="0.3" />
 
             <FrameLayout
                 android:id="@+id/content"
@@ -41,8 +49,8 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
 
