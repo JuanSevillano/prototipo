@@ -1,6 +1,7 @@
 package com.example.sevillano.proto_2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -41,6 +42,7 @@ public class ProductoFragment extends Fragment {
 
 
     public ProductoFragment() {
+        // Empty but necessary constructor
     }
 
 
@@ -70,7 +72,6 @@ public class ProductoFragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu,inflater);
         inflater.inflate(R.menu.menu_main, menu);
-
         myActionMenuItem = menu.findItem( R.id.action_search);
         searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -98,6 +99,10 @@ public class ProductoFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_search:
                 // do s.th.
+                return true;
+
+            case R.id.user_profile:
+                Intent i = new Intent(getContext(),Perfil.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

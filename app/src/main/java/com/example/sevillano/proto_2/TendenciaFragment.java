@@ -1,6 +1,7 @@
 package com.example.sevillano.proto_2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,29 +22,18 @@ import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class TendenciaFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
+
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private static int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
     private StaggeredGridLayoutManager gaggeredGridLayoutManager;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
     public TendenciaFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static TendenciaFragment newInstance() {
         TendenciaFragment fragment = new TendenciaFragment();
@@ -57,6 +50,7 @@ public class TendenciaFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -67,7 +61,6 @@ public class TendenciaFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
         // Mientras se crean los datos localmente
         recyclerView.setHasFixedSize(true);
-        gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         GridLayoutManager glm = new GridLayoutManager(context, 3);
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -88,14 +81,38 @@ public class TendenciaFragment extends Fragment {
                 }
             }
         });
-        //rv.setLayoutManager(glm);
         recyclerView.setLayoutManager(glm);
+        // Llamado de datos
         List<Tendencia> gaggeredList = getListItemData();
         SolventRecyclerViewAdapter rcAdapter = new SolventRecyclerViewAdapter(context, gaggeredList);
-        Log.d("HABLAME----------------", "ESTO ESTA PASANDO");
         recyclerView.setAdapter(rcAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_ten,menu);
+        Log.d("[----TENDENCIA----]", "Está entrando aquí");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // do s.th.
+                return true;
+
+            case R.id.user_profile:
+                Intent i = new Intent(getContext(),Perfil.class);
+                startActivity(i);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -134,18 +151,7 @@ public class TendenciaFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Tendencia item);
     }
 }

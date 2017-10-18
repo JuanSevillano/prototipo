@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
                     setFragment(ProductoFragment.newInstance(1));
                     return true;
                 case R.id.navigation_dashboard:
-                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.Mader.AppRA");
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.PDG.RANochero");
                     if(launchIntent != null){
                         startActivity(launchIntent);
                     }
@@ -110,9 +111,10 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Tendencia item) {
 
     }
+
 }
 
 
