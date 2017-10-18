@@ -21,7 +21,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity implements ProductoFragment.OnListFragmentInteractionListener, FiltroFragment.OnFragmentInteractionListener, TendenciaFragment.OnListFragmentInteractionListener {
 
-    private static final String TAG = "[--MAIN ACTIVIY--]";
+    private static final String TAG = "[ ---- MAIN ACTIVIY ---- ]";
     private BottomNavigationView navigation;
     // Firebase
     private StorageReference mStorageRef;
@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // Setting initial fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1)).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1)).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.filtros, FiltroFragment.newInstance()).commit();
         // Getting storage
         mStorageRef = FirebaseStorage.getInstance().getReference();
     }

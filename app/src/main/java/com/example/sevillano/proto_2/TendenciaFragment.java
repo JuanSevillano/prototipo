@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,6 @@ public class TendenciaFragment extends Fragment {
     public TendenciaFragment() {
     }
 
-    @SuppressWarnings("unused")
     public static TendenciaFragment newInstance() {
         TendenciaFragment fragment = new TendenciaFragment();
         Bundle args = new Bundle();
@@ -51,6 +51,9 @@ public class TendenciaFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
         setHasOptionsMenu(true);
+        // Deleting Filters
+        FragmentManager fr = getActivity().getSupportFragmentManager();
+        fr.beginTransaction().remove(fr.findFragmentById(R.id.filtros));
     }
 
     @Override
@@ -86,7 +89,6 @@ public class TendenciaFragment extends Fragment {
         List<Tendencia> gaggeredList = getListItemData();
         SolventRecyclerViewAdapter rcAdapter = new SolventRecyclerViewAdapter(context, gaggeredList);
         recyclerView.setAdapter(rcAdapter);
-
         return view;
     }
 

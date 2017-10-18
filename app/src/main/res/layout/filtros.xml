@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
-            android:background="@color/product_bck"
+            android:background="#bebebe"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp">

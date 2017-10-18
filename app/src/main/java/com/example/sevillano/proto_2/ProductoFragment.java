@@ -103,6 +103,7 @@ public class ProductoFragment extends Fragment {
 
             case R.id.user_profile:
                 Intent i = new Intent(getContext(),Perfil.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,7 +115,6 @@ public class ProductoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_producto_list, container, false);
-
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
