@@ -5,7 +5,7 @@
         android:id="@+id/action_car"
         android:icon="@drawable/car"
         android:title="@string/search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/user_profile"

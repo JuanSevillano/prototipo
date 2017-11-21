@@ -20,6 +20,8 @@ import com.google.firebase.auth.*;
 import android.provider.Settings.Secure;
 
 
+import java.util.regex.Pattern;
+
 import static android.R.attr.password;
 import static java.security.AccessController.getContext;
 
@@ -30,6 +32,15 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     EditText usr, psw, correoT, contraT, confirm;
     static FirebaseAuth mAuth;
     static FirebaseAuth.AuthStateListener mAuthListener;
+    public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,34 +114,52 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         String confirmar = confirm.getText().toString();
 
         // If password and confirmPass are the same.
-        if (contrasena.equals(confirmar)) {
+        if(checkEmail(correo)) {
 
-            mAuth.createUserWithEmailAndPassword(correo, contrasena)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d(" [ REGISTRO ] ", "createUserWithEmail:onComplete:" + task.isSuccessful());
+            if (contrasena.length() > 5) {
 
+                if (contrasena.equals(confirmar)) {
 
-                            // If can not be succcessful resgiter
-                            if (!task.isSuccessful()) {
-                                Log.w(TAG,task.getException());
-                                Toast.makeText(Inicio.this, R.string.auth_failed,
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Intent i = new Intent(getBaseContext(), MainActivity.class);
-                                startActivity(i);
-                            }
+                    mAuth.createUserWithEmailAndPassword(correo, contrasena)
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    Log.d(" [ REGISTRO ] ", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
 
-                        }
-                    });
-        } else {
-            // Let user know the pass and confirmpass are not the same.
-            Toast.makeText(Inicio.this, R.string.confirmar,
+                                    // If can not be succcessful resgiter
+                                    if (!task.isSuccessful()) {
+                                        Log.w(TAG, task.getException());
+                                        Toast.makeText(Inicio.this, R.string.auth_failed,
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Intent i = new Intent(getBaseContext(), MainActivity.class);
+                                        startActivity(i);
+                                    }
+
+
+                                }
+                            });
+                } else {
+                    // Let user know the pass and confirmpass are not the same.
+                    Toast.makeText(Inicio.this, R.string.confirmar,
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(Inicio.this, R.string.shortPassword,
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(Inicio.this, R.string.wrongEmail,
                     Toast.LENGTH_SHORT).show();
         }
     }
+
+    //Check format email
+    private boolean checkEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+
     // Onclick Event for login view
     public void autenticar(View v) {
 

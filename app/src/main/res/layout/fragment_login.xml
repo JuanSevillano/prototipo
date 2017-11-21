@@ -49,8 +49,9 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="0.3"
-            android:text="@string/olvide"
+            android:text="@string/forgetPassword"
             android:textColor="@android:color/white"
+            android:textAlignment="center"
             android:textColorHint="@color/white"
             android:textSize="16sp" />
 
@@ -60,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:background="#86ffffff"
+            android:background="#f5f7f7"
             android:onClick="autenticar"
             android:text="@string/login"
             android:textAllCaps="false"
@@ -73,7 +74,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="0.3"
             android:onClick="explorar"
-            android:text="@string/cotinuar"
+            android:text="@string/continuar"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textColorHint="@color/white" />

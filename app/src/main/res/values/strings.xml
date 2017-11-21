@@ -4,12 +4,12 @@
     <string name="title_dashboard">Scan</string>
     <string name="title_notifications">Tendencias</string>
     <string name="bienvenida">¡Descubre la manera más divertida de personalizar tu espacio!</string>
-    <string name="cotinuar">Continua sin registro</string>
+    <string name="continuar"><u>Continuar sin registro</u></string>
     <string name="login">Iniciar Sesión</string>
     <string name="register">Regístrate</string>
     <string name="nombre">Maderkit</string>
     <string name="bienvenido">Bienvenidos</string>
-    <string name="olvide">Olvidé la contraseña</string>
+    <string name="forgetPassword"><u>¿Olvidaste tu contraseña?</u></string>
     <string name="habitacion">Habitación</string>
     <string name="estudios">Estudio</string>
     <string name="mesas">Mesas</string>
@@ -20,4 +20,7 @@
     <string name="detail_image">Producto Maderkit en vista detallada</string>
     <string name="search">Buscar</string>
     <string name="user_profile">Perfil usuario</string>
+    <string name="shortPassword">La contraseña debe tener más de 6 caracteres</string>
+    <string name="wrongEmail">El correo ingresado no es válido</string>
+
 </resources>

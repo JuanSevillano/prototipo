@@ -59,7 +59,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="15dp"
         android:layout_weight="1"
-        android:background="#86ffffff"
+        android:background="#f5f7f7"
         android:onClick="iniciar"
         android:text="@string/login"
         android:textAllCaps="false"
@@ -72,7 +72,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="15dp"
         android:layout_weight="1"
-        android:background="#86ffffff"
+        android:background="#f5f7f7"
         android:onClick="registrar"
         android:text="@string/register"
         android:textAllCaps="false"
@@ -87,7 +87,7 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:onClick="explorar"
-        android:text="@string/cotinuar"
+        android:text="@string/continuar"
         android:textAlignment="center"
         android:textColor="@android:color/white" />
 
