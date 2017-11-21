@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.sevillano.proto_2.R;
+import com.squareup.picasso.Picasso;
 
 /*
  * Created by Juan D. Sevillano Giraldo on 9/10/17.
@@ -19,11 +20,12 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private Integer[] images = {R.drawable.ic_dashboard_black_24dp, R.drawable.ic_home_black_24dp, R.drawable.ic_favouite};
+    private String[] images;// = {R.drawable.ic_dashboard_black_24dp, R.drawable.ic_home_black_24dp, R.drawable.ic_favouite};
 
 
-    public ViewPagerAdapter(Context context) {
+    public ViewPagerAdapter(Context context,String[] images) {
         this.context = context;
+        this.images = images;
     }
 
     @Override
@@ -45,7 +47,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         // Accediendo al imageView del custom layout
         ImageView imageView = view.findViewById(R.id.img_slider);
         // Pasando el contenido al slider
-        imageView.setImageResource(images[position]);
+        Picasso.with(context).load(images[position]).into(imageView);
+        //imageView.setImageResource(images[position]);
         // creating viewpager
         ViewPager viewPager = (ViewPager) viewGroup;
         viewPager.addView(view, 0);

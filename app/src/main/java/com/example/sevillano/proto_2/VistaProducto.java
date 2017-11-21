@@ -21,9 +21,10 @@ public class VistaProducto extends AppCompatActivity {
         // Getting slider and dots layout
         viewPager = (ViewPager) findViewById(R.id.slider);
         sliderDotsPanel = (LinearLayout) findViewById(R.id.slider_dots);
-
+        Bundle b = getIntent().getExtras();
+        String[] photos = (String[]) b.get("fotos");
         // Creating adapter
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this,photos);
 
         // Setting adapter
         viewPager.setAdapter(adapter);
@@ -31,15 +32,15 @@ public class VistaProducto extends AppCompatActivity {
         dotsCount = adapter.getCount();
         dots = new ImageView[dotsCount];
 
-        for(int i = 0; i<dotsCount; i++){
+        for (int i = 0; i < dotsCount; i++) {
             dots[i] = new ImageView(this);
-            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.nonactive_dot));
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(8,0,8,0);
-            sliderDotsPanel.addView(dots[i],params);
+            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(8, 0, 8, 0);
+            sliderDotsPanel.addView(dots[i], params);
         }
 
-        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.active_dot));
+        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -50,11 +51,11 @@ public class VistaProducto extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                for(int i = 0; i < dotsCount; i++){
-                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.nonactive_dot));
+                for (int i = 0; i < dotsCount; i++) {
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
                 }
 
-                dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.active_dot));
+                dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
             }
 
             @Override

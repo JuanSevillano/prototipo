@@ -22,6 +22,11 @@ import android.widget.Toast;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
 import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +44,11 @@ public class ProductoFragment extends Fragment {
     RecyclerView recyclerView;
     SearchView searchView;
     MenuItem myActionMenuItem;
+    // Firebase
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    ArrayList<Producto> productos;
+    RecyclerView.Adapter adapter;
 
 
     public ProductoFragment() {
@@ -58,7 +68,6 @@ public class ProductoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -66,25 +75,25 @@ public class ProductoFragment extends Fragment {
     }
 
 
-
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_main, menu);
-        myActionMenuItem = menu.findItem( R.id.action_search);
+        myActionMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Toast like print
-                Toast.makeText(getContext(),query,Toast.LENGTH_SHORT);// show( "SearchOnQueryTextSubmit: " + query);
-                if( ! searchView.isIconified()) {
+                Toast.makeText(getContext(), query, Toast.LENGTH_SHORT);// show( "SearchOnQueryTextSubmit: " + query);
+                if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
                 myActionMenuItem.collapseActionView();
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
@@ -102,7 +111,7 @@ public class ProductoFragment extends Fragment {
                 return true;
 
             case R.id.user_profile:
-                Intent i = new Intent(getContext(),Perfil.class);
+                Intent i = new Intent(getContext(), Perfil.class);
                 startActivity(i);
                 return true;
             default:
@@ -123,35 +132,67 @@ public class ProductoFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             // restore index and position
             //recyclerView.setSelectionFromTop(index,top);
+            productos = new ArrayList<>();
+            database = FirebaseDatabase.getInstance();
+            myRef = database.getReference("productos");
+            // Set Adapter w/ empty List
+            adapter = new MyProductoAdapter(productos, mListener, getContext());
+            recyclerView.setAdapter(adapter);
+            // Read from the database
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    productos.removeAll(productos);
 
-            recyclerView.setAdapter(new MyProductoAdapter(getListItemData(), mListener));
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Producto producto = new Producto();
+                        producto.setNombre(snapshot.child("nombre").getValue(String.class));
+                        producto.setMedidas(snapshot.child("medidas").getValue(String.class));
+                        producto.setPrecio(snapshot.child("precio").getValue(String.class));
+                        producto.setDescripcion(snapshot.child("descripcion").getValue(String.class));
+                        String[] tags = new String[(int)snapshot.child("tags").getChildrenCount()];
+                        String[] likes = new String[(int)snapshot.child("likes").getChildrenCount()];
+                        String[] src = new String[(int)snapshot.child("src").getChildrenCount()];
+                        int i = 0, j = 0, k = 0;
+                        for (DataSnapshot ds : snapshot.child("tags").getChildren()) {
+                            if (ds.getValue() != null) {
+                                tags[i] = ds.getValue(String.class);
+                                i++;
+                            }
+                        }
+
+                        for (DataSnapshot ds : snapshot.child("likes").getChildren()) {
+                            if (ds.getValue() != null) {
+                                likes[j] = ds.getValue(String.class);
+                                j++;
+                            }
+                        }
+
+                        for (DataSnapshot ds : snapshot.child("src").getChildren()) {
+                            if (ds.getValue() != null) {
+                                src[k] = ds.getValue(String.class);
+                                k++;
+                            }
+                        }
+                        // Después de traer los arreglos los setea.
+                        producto.setTags(tags);
+                        producto.setLikes(likes);
+                        producto.setSrc(src);
+                        productos.add(producto);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
         }
         return view;
-    }
-
-    private List<Producto> getListItemData() {
-        List<Producto> listViewItems = new ArrayList<Producto>();
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        listViewItems.add(new Producto("Cama Doble ", "Cama doble de 2x2m perfecta para pareja"
-                ,"","", ""));
-        return listViewItems;
     }
 
 
@@ -175,8 +216,7 @@ public class ProductoFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null) {
-            Log.d(TAG,"[[[[-- RestoredView --]]]]");
+        if (savedInstanceState != null) {
             Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
             recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
         }
@@ -190,7 +230,6 @@ public class ProductoFragment extends Fragment {
 
 
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Producto item);
     }
 }

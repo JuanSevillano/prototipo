@@ -42,7 +42,6 @@ public class FiltroFragment extends Fragment{
         return inflater.inflate(R.layout.filtros, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

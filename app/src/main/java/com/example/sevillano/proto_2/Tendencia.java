@@ -2,6 +2,10 @@ package com.example.sevillano.proto_2;
 
 import android.media.Image;
 
+import com.google.firebase.database.GenericTypeIndicator;
+
+import java.util.List;
+
 /**
  * Created by Sevi on 6/10/17.
  */
@@ -9,12 +13,16 @@ import android.media.Image;
 class Tendencia {
 
     String nombre, descripcion;
-    int imagen;
+    String [] src, guardado,tags;
 
-    Tendencia(String nombre, String descripcion, int imagen){
+    Tendencia(){
+
+
+    }
+
+    Tendencia(String nombre, String descripcion){
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.imagen = imagen;
     }
 
     String getNombre(){
@@ -25,7 +33,28 @@ class Tendencia {
         return descripcion;
     }
 
-    int getImagen(){
-        return imagen;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
+
+
+    public void setGuardado(String[] guardado) {
+        this.guardado = guardado;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    public String[] getSrc(){return src;}
+
+    public void setSrc(String[] src){
+        this.src = src;
+    }
+
 }

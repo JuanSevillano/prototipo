@@ -6,13 +6,20 @@ package com.example.sevillano.proto_2;
 
 class Producto {
     // Variables para definir un producto
-    String nombre, descripcion, precio, imgUrl;
+    String nombre, descripcion, precio, medidas;
+    String[] src, likes, tags;
 
-    Producto(String nombre, String descripcion, String precio, String medidas, String imgUrl) {
+    Producto(){
+
+    }
+
+    Producto(String nombre, String descripcion, String precio, String medidas, String[] src,String[] likes, String[] tags) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.imgUrl = imgUrl;
+        this.src = src;
+        this.likes = likes;
+        this.tags = tags;
     }
 
     public String getNombre() {
@@ -27,7 +34,35 @@ class Producto {
         return precio;
     }
 
-    public String getImagen() {
-        return imgUrl;
+    public String[] getImagen() {
+        return src;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setMedidas(String medidas) {
+        this.medidas = medidas;
+    }
+
+    public void setLikes(String[] likes) {
+        this.likes = likes;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+
+    public void setSrc(String[] src) {
+        this.src = src;
     }
 }

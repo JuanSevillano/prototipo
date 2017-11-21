@@ -4,6 +4,7 @@ package com.example.sevillano.proto_2;
  * Created by Juan Sevillano on 28/08/2017.
  */
 
+import android.support.annotation.AnimatorRes;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;

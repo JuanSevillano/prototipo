@@ -28,8 +28,8 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     private static final String TAG = " [INICIO PRINT] ";
     TextView continuar;
     EditText usr, psw, correoT, contraT, confirm;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    static FirebaseAuth mAuth;
+    static FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -22,9 +22,10 @@ public class VistaTendencia extends AppCompatActivity {
         // Getting slider and dots layout
         viewPager = (ViewPager) findViewById(R.id.sliderTendencias);
         sliderDotsPanel = (LinearLayout) findViewById(R.id.slider_dots);
-
+        Bundle extras = getIntent().getExtras();
+        String[] fotos = (String[]) extras.get("fotos");
         // Creating adapter
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this,fotos);
 
         // Setting adapter
         viewPager.setAdapter(adapter);

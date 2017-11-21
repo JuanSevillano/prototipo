@@ -19,6 +19,12 @@ import android.view.ViewGroup;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
 import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +33,15 @@ public class TendenciaFragment extends Fragment {
 
 
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String TAG = "Tendencia Fragment";
     private static int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
     private StaggeredGridLayoutManager gaggeredGridLayoutManager;
+    // Firebase
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    List<Tendencia> tendencias;
+    RecyclerView.Adapter adapter;
 
 
     public TendenciaFragment() {
@@ -59,9 +71,9 @@ public class TendenciaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tendencia_list, container,false);
+        View view = inflater.inflate(R.layout.fragment_tendencia_list, container, false);
         Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         // Mientras se crean los datos localmente
         recyclerView.setHasFixedSize(true);
         GridLayoutManager glm = new GridLayoutManager(context, 3);
@@ -80,23 +92,64 @@ public class TendenciaFragment extends Fragment {
                         return 2;
                     default:
                         //never gonna happen
-                        return  -1 ;
+                        return -1;
                 }
             }
         });
         recyclerView.setLayoutManager(glm);
-        // Llamado de datos
-        List<Tendencia> gaggeredList = getListItemData();
-        SolventRecyclerViewAdapter rcAdapter = new SolventRecyclerViewAdapter(context, gaggeredList);
-        recyclerView.setAdapter(rcAdapter);
+        tendencias = new ArrayList<>();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("tendencias");
+        // Set Adapter w/ empty List
+        adapter = new SolventRecyclerViewAdapter(getContext(), tendencias, mListener);
+        recyclerView.setAdapter(adapter);
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                tendencias.removeAll(tendencias);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    //GenericTypeIndicator<List<Tendencia>> t = new GenericTypeIndicator<List<Tendencia>>() {};
+                    //List<Tendencia> messages = snapshot.getValue(t);
+                    Tendencia tendencia = new Tendencia();
+                    String name = snapshot.child("nombre").getValue(String.class);
+                    String descripcion = snapshot.child("descripcion").getValue(String.class);
+                    String[] str = new String[(int)snapshot.child("src").getChildrenCount()];
+                    int i = 0;
+                    for (DataSnapshot ds : snapshot.child("src").getChildren()) {
+                        str[i] = ds.getValue(String.class);
+                        i++;
+                    }
+                    tendencia.setDescripcion(descripcion);
+                    tendencia.setNombre(name);
+                    if (str[0] != null) {
+                        tendencia.setSrc(str);
+                    }
+                    // Tendencia tendencia = snapshot.getValue(Tendencia.class);
+                    //                   tendencia.
+                    tendencias.add(tendencia);// = messages;
+
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_ten,menu);
-        Log.d("[----TENDENCIA----]", "Está entrando aquí");
+        inflater.inflate(R.menu.menu_ten, menu);
     }
 
     @Override
@@ -108,7 +161,7 @@ public class TendenciaFragment extends Fragment {
                 return true;
 
             case R.id.user_profile:
-                Intent i = new Intent(getContext(),Perfil.class);
+                Intent i = new Intent(getContext(), Perfil.class);
                 startActivity(i);
                 return true;
 
@@ -129,23 +182,7 @@ public class TendenciaFragment extends Fragment {
         }
     }
 
-    private List<Tendencia> getListItemData() {
-        List<Tendencia> listViewItems = new ArrayList<Tendencia>();
-        listViewItems.add(new Tendencia("Alkane", "Este sofa es hermoso y cariñoso", R.mipmap.cama_doble));
-        listViewItems.add(new Tendencia("Ethane", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Alkyne", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Benzene", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Amide", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Amino Acid", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Phenol", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Carbonxylic", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Nitril", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Ether", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Ester", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
-        listViewItems.add(new Tendencia("Alcohol", "Este sofa es hermoso y cariñoso", R.mipmap.ten_navg));
 
-        return listViewItems;
-    }
 
     @Override
     public void onDetach() {

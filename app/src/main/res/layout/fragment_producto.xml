@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
         android:id="@+id/product_img"
-        android:layout_height="400dp"
-        android:layout_weight="5"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_height="360dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:padding="2dp"
         android:background="@color/product_bck"
-        android:layout_marginTop="320dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignBottom="@+id/product_img"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/product_nombre"
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/text_margin"
+            android:textColor="@android:color/white"
             android:text="Cama Doble Wengue  -"
             android:textAppearance="?attr/textAppearanceListItem" />
 
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="0dp"
+            android:textColor="@android:color/white"
             android:layout_marginRight="@dimen/text_margin"
             android:text="$490.900"
             android:textAppearance="?attr/textAppearanceListItem" />
@@ -46,6 +48,7 @@
             android:id="@+id/product_fav"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
+            android:onClick="favorito"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_favouite" />
 
@@ -56,6 +59,6 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_shopping" />
+            app:srcCompat="@drawable/ic_carrito" />
     </LinearLayout>
 </RelativeLayout>
