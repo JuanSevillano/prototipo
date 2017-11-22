@@ -30,6 +30,7 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     private static final String TAG = " [INICIO PRINT] ";
     TextView continuar;
     EditText usr, psw, correoT, contraT, confirm;
+    static FirebaseUser user;
     static FirebaseAuth mAuth;
     static FirebaseAuth.AuthStateListener mAuthListener;
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
@@ -53,10 +54,12 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
+                    Log.d("TAG", "CUALQUIER COSA");
+                    Intent i = new Intent(Inicio.this,MainActivity.class);
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    startActivity(i);
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -66,19 +69,22 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
 
         // Colocando el fragment inicial
         if (savedInstanceState == null) {
+            Log.d("TAG", "savedInstanceState == null");
+
             android.app.FragmentManager manager = getFragmentManager();
             android.app.FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.initio, Principal.newInstance());
             transaction.setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
         }
+
     }
 
     @Override
     public void onBackPressed() {
         int count = getFragmentManager().getBackStackEntryCount();
 
-        if (count == 0) {
+        if (count >= 1) {
             super.onBackPressed();
             //additional code
         } else {
@@ -222,7 +228,6 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

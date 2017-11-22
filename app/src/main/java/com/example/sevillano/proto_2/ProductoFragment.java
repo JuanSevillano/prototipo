@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,6 +23,13 @@ import android.widget.Toast;
 
 import com.example.sevillano.proto_2.dummy.DummyContent;
 import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -111,9 +119,22 @@ public class ProductoFragment extends Fragment {
                 return true;
 
             case R.id.user_profile:
-                Intent i = new Intent(getContext(), Perfil.class);
+
+
+                return true;
+            case R.id.cerrar:
+                System.out.println("USUARIO = " + Inicio.user);
+                FirebaseAuth.getInstance().signOut();
+                System.out.println("USUARIO1 = " + Inicio.user);
+                startActivity(new Intent(getActivity(),Inicio.class));
+                getActivity().finish();
+                return true;
+
+            case R.id.perfil:
+                Intent i = new Intent(getActivity(), Perfil.class);
                 startActivity(i);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -152,9 +173,9 @@ public class ProductoFragment extends Fragment {
                         producto.setMedidas(snapshot.child("medidas").getValue(String.class));
                         producto.setPrecio(snapshot.child("precio").getValue(String.class));
                         producto.setDescripcion(snapshot.child("descripcion").getValue(String.class));
-                        String[] tags = new String[(int)snapshot.child("tags").getChildrenCount()];
-                        String[] likes = new String[(int)snapshot.child("likes").getChildrenCount()];
-                        String[] src = new String[(int)snapshot.child("src").getChildrenCount()];
+                        String[] tags = new String[(int) snapshot.child("tags").getChildrenCount()];
+                        String[] likes = new String[(int) snapshot.child("likes").getChildrenCount()];
+                        String[] src = new String[(int) snapshot.child("src").getChildrenCount()];
                         int i = 0, j = 0, k = 0;
                         for (DataSnapshot ds : snapshot.child("tags").getChildren()) {
                             if (ds.getValue() != null) {

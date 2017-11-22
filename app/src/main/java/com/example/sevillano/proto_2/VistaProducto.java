@@ -1,9 +1,13 @@
 package com.example.sevillano.proto_2;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -11,6 +15,7 @@ public class VistaProducto extends AppCompatActivity {
 
     ViewPager viewPager;
     LinearLayout sliderDotsPanel;
+    BottomNavigationView navigation;
     private int dotsCount;
     private ImageView[] dots;
 
@@ -21,6 +26,7 @@ public class VistaProducto extends AppCompatActivity {
         // Getting slider and dots layout
         viewPager = (ViewPager) findViewById(R.id.slider);
         sliderDotsPanel = (LinearLayout) findViewById(R.id.slider_dots);
+        navigation = (BottomNavigationView) findViewById(R.id.navegacionProducto);
         Bundle b = getIntent().getExtras();
         String[] photos = (String[]) b.get("fotos");
         // Creating adapter
@@ -65,5 +71,27 @@ public class VistaProducto extends AppCompatActivity {
         });
 
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            switch (item.getItemId()) {
+                case R.id.mueble:
+
+                    return true;
+                case R.id.tresde:
+
+                    return true;
+                case R.id.armar:
+
+                    return true;
+            }
+            return false;
+        }
+
+    };
 
 }
