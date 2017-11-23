@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.sevillano.proto_2.dummy.DummyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,13 +45,28 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     // Firebase
     private StorageReference mStorageRef;
     FirebaseUser usuario;
-
+    static ArrayList<String> likes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        likes = new ArrayList<>();
+        usuario = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference loadingLike = FirebaseDatabase.getInstance().getReference("like").child(usuario.getUid());
+        loadingLike.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //System.out.println(dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         setSupportActionBar(toolbar);
         // Making BottomNavigation
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -70,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         // Setting initial fragment
         getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1), "A").commit();
         getSupportFragmentManager().beginTransaction().add(R.id.filtros, FiltroFragment.newInstance(), "F").commit();
-
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
         // Getting storage
         mStorageRef = FirebaseStorage.getInstance().getReference();
         // Write a message to the database
@@ -114,9 +129,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         // create Fragment transaction
         android.support.v4.app.FragmentTransaction fTransaction = fManager.beginTransaction();
         // Replacing fragment_container
-
         //fTransaction.hide(getSupportFragmentManager().findFragmentByTag("F"));
-
         fTransaction.replace(R.id.content, fr);
         // Adding to back stack
         fTransaction.addToBackStack(null);
@@ -127,30 +140,34 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     @Override
     public void onBackPressed() {
         int count = getFragmentManager().getBackStackEntryCount();
-
-        if (count <= 1) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getFragmentManager().popBackStack();
-        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        startActivity(intent);
     }
 
     public void favorito(View v) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("like").child("");
-        JSONObject ob = new JSONObject();
-        try {
-            //ob.put("productoId", v);
-            ob.put("userId", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-            myRef.setValue(ob);
-            Toast.makeText(getBaseContext(), "LIKED", Toast.LENGTH_SHORT);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getBaseContext(), "PRUEBA", Toast.LENGTH_SHORT).show();
-        }
-        //myRef.setValue(v.getId(),FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("like").child(usuario.getUid());
+        //Map<String, String> userData = new HashMap<String, String>();
+        //userData.put(user, " ");
+        likes.add(usuario.getUid());
+        myRef.setValue(likes);
+        //Toast.makeText(getBaseContext(), "LIKED", Toast.LENGTH_SHORT);
+        //myRef.setValue(v.getId(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                System.out.println(dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
