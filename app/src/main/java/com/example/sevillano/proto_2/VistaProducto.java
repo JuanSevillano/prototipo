@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,8 @@ public class VistaProducto extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navegacionProducto);
         Bundle b = getIntent().getExtras();
         String[] photos = (String[]) b.get("fotos");
+
+
         // Creating adapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(this,photos);
 
@@ -57,6 +60,7 @@ public class VistaProducto extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
+
                 for (int i = 0; i < dotsCount; i++) {
                     dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
                 }
@@ -69,6 +73,7 @@ public class VistaProducto extends AppCompatActivity {
 
             }
         });
+
 
     }
 

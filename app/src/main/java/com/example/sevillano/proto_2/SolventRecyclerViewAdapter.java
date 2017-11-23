@@ -38,6 +38,7 @@ public class SolventRecyclerViewAdapter extends RecyclerView.Adapter<SolventRecy
     public void onBindViewHolder(final SolventViewHolders holder, int position) {
         holder.mItem = itemList.get(position);
         String[] uri = itemList.get(position).getSrc();
+
         Picasso.with(context).load(uri[0]).into(holder.countryPhoto);
         holder.countryName.setText(itemList.get(position).getNombre());
         holder.mView.setOnClickListener(new View.OnClickListener() {

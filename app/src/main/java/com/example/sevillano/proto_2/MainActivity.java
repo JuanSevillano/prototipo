@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,21 +53,34 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        likes = new ArrayList<>();
+        likes = new ArrayList<String>();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference loadingLike = FirebaseDatabase.getInstance().getReference("like").child(usuario.getUid());
-        loadingLike.addValueEventListener(new ValueEventListener() {
-            @Override
+
+        if(loadingLike != null){
+            System.out.println("User not null");
+
+            loadingLike.addValueEventListener(new ValueEventListener() {
+                @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //System.out.println(dataSnapshot.getValue());
-            }
+                  /* for (DataSnapshot mylikes: dataSnapshot.getChildren() ){
+                        String currentLike = mylikes.getValue()+"";
+                        //System.out.println(currentLike);
+                        likes.add(currentLike);
+
+                    } System.out.println(likes);*/
+
+                }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+        }
+
         setSupportActionBar(toolbar);
         // Making BottomNavigation
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -148,34 +162,54 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
 
     public void favorito(View v) {
 
+        Bundle b = getIntent().getExtras();
+        String[] photos = (String[]) b.get("fotos");
+        System.out.println(photos[0]);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("like").child(usuario.getUid());
         //Map<String, String> userData = new HashMap<String, String>();
         //userData.put(user, " ");
-        likes.add(usuario.getUid());
-        myRef.setValue(likes);
-        //Toast.makeText(getBaseContext(), "LIKED", Toast.LENGTH_SHORT);
-        //myRef.setValue(v.getId(),FirebaseAuth.getInstance().getCurrentUser().getUid());
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                System.out.println(dataSnapshot.getValue());
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+        if(likes.contains(usuario.getUid())){
+            likes.remove(usuario.getUid());
+            Toast.makeText(MainActivity.this, "Dislike",
+                    Toast.LENGTH_SHORT).show();
+        }else{
+            likes.add(usuario.getUid());
+            myRef.setValue(likes);
+            //Toast.makeText(getBaseContext(), "LIKED", Toast.LENGTH_SHORT);
+            //myRef.setValue(v.getId(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    Toast.makeText(MainActivity.this, "Like",
+                            Toast.LENGTH_SHORT).show();
+                    System.out.println(dataSnapshot.getValue());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
     }
 
     @Override
     public void onListFragmentInteraction(Producto item) {
+
         // Every time a Product is clicked into recyclerView
         Intent intent = new Intent(getBaseContext(), VistaProducto.class);
+
         intent.putExtra("fotos", item.getImagen());
+
         startActivity(intent);
+
         //Toast.makeText(getBaseContext(), "Clicked Position = " + item.getNombre(), Toast.LENGTH_SHORT).show();
 
     }
@@ -190,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
 
     @Override
     public void onListFragmentInteraction(Tendencia item) {
+
         Intent i = new Intent(getBaseContext(), VistaTendencia.class);
         i.putExtra("fotos", item.getSrc());
         startActivity(i);

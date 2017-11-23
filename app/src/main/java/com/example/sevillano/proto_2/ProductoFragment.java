@@ -203,6 +203,7 @@ public class ProductoFragment extends Fragment {
                         producto.setSrc(src);
                         productos.add(producto);
                     }
+
                     adapter.notifyDataSetChanged();
                 }
 
