@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     private static final String TAG = "[ - MAIN ACTIVIY - ]";
     private BottomNavigationView navigation;
     // Firebase
-    private StorageReference mStorageRef;
     FirebaseUser usuario;
     static ArrayList<String> likes;
 
@@ -53,34 +52,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        likes = new ArrayList<String>();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference loadingLike = FirebaseDatabase.getInstance().getReference("like").child(usuario.getUid());
-
-        if(loadingLike != null){
-            System.out.println("User not null");
-
-            loadingLike.addValueEventListener(new ValueEventListener() {
-                @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                  /* for (DataSnapshot mylikes: dataSnapshot.getChildren() ){
-                        String currentLike = mylikes.getValue()+"";
-                        //System.out.println(currentLike);
-                        likes.add(currentLike);
-
-                    } System.out.println(likes);*/
-
-                }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        }
-
         setSupportActionBar(toolbar);
         // Making BottomNavigation
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -101,10 +73,6 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         // Setting initial fragment
         getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1), "A").commit();
         getSupportFragmentManager().beginTransaction().add(R.id.filtros, FiltroFragment.newInstance(), "F").commit();
-        // Getting storage
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        // Write a message to the database
-
     }
 
 
@@ -126,9 +94,8 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
                     return true;
                 case R.id.navigation_notifications:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, TendenciaFragment.newInstance(), "T").commit();
-                    getSupportFragmentManager().beginTransaction().hide(getSupportFragmentManager().findFragmentByTag("F"));
+                    getSupportFragmentManager().beginTransaction().hide(getSupportFragmentManager().findFragmentByTag("F")).commit();
                     //getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("F"));
-
                     //setFragment(TendenciaFragment.newInstance());
                     return true;
             }
@@ -160,45 +127,6 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         startActivity(intent);
     }
 
-    public void favorito(View v) {
-
-        Bundle b = getIntent().getExtras();
-        String[] photos = (String[]) b.get("fotos");
-        System.out.println(photos[0]);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("like").child(usuario.getUid());
-        //Map<String, String> userData = new HashMap<String, String>();
-        //userData.put(user, " ");
-
-
-
-        if(likes.contains(usuario.getUid())){
-            likes.remove(usuario.getUid());
-            Toast.makeText(MainActivity.this, "Dislike",
-                    Toast.LENGTH_SHORT).show();
-        }else{
-            likes.add(usuario.getUid());
-            myRef.setValue(likes);
-            //Toast.makeText(getBaseContext(), "LIKED", Toast.LENGTH_SHORT);
-            //myRef.setValue(v.getId(),FirebaseAuth.getInstance().getCurrentUser().getUid());
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    Toast.makeText(MainActivity.this, "Like",
-                            Toast.LENGTH_SHORT).show();
-                    System.out.println(dataSnapshot.getValue());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-    }
 
     @Override
     public void onListFragmentInteraction(Producto item) {
@@ -213,8 +141,6 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         //Toast.makeText(getBaseContext(), "Clicked Position = " + item.getNombre(), Toast.LENGTH_SHORT).show();
 
     }
-
-
 
 
     @Override

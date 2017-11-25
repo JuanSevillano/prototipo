@@ -177,6 +177,8 @@ public class ProductoFragment extends Fragment {
                         String[] likes = new String[(int) snapshot.child("likes").getChildrenCount()];
                         String[] src = new String[(int) snapshot.child("src").getChildrenCount()];
                         int i = 0, j = 0, k = 0;
+
+
                         for (DataSnapshot ds : snapshot.child("tags").getChildren()) {
                             if (ds.getValue() != null) {
                                 tags[i] = ds.getValue(String.class);
@@ -187,6 +189,8 @@ public class ProductoFragment extends Fragment {
                         for (DataSnapshot ds : snapshot.child("likes").getChildren()) {
                             if (ds.getValue() != null) {
                                 likes[j] = ds.getValue(String.class);
+
+                                System.out.println("laics  "+likes[j]);
                                 j++;
                             }
                         }
