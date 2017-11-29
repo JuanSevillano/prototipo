@@ -16,9 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.sevillano.proto_2.dummy.DummyContent;
-import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -76,12 +74,18 @@ public class TendenciaFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         // Mientras se crean los datos localmente
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager glm = new GridLayoutManager(context, 3);
-        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        GridLayoutManager glm = new GridLayoutManager(context, 2);
+        /*glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 if (position % 3 == 2) {
                     return 3;
+                }
+                if(position % 5 == 0){
+                    return 2;
+                }
+                if(position % 6 == 0){
+                    return 1;
                 }
                 switch (position % 4) {
                     case 1:
@@ -95,7 +99,7 @@ public class TendenciaFragment extends Fragment {
                         return -1;
                 }
             }
-        });
+        });*/
         recyclerView.setLayoutManager(glm);
         tendencias = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
@@ -149,7 +153,7 @@ public class TendenciaFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_ten, menu);
+        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
@@ -160,9 +164,23 @@ public class TendenciaFragment extends Fragment {
                 // do s.th.
                 return true;
 
-            case R.id.user_profile:
+            case R.id.action_car:
+                // Enviando a la activity del usuario
+                startActivity(new Intent(getActivity(),Car.class));
+                return true;
+
+            case R.id.perfil:
                 Intent i = new Intent(getContext(), Perfil.class);
                 startActivity(i);
+                return true;
+
+            case R.id.cerrar:
+                System.out.println("USUARIO = " + Inicio.user);
+                FirebaseAuth.getInstance().signOut();
+                // Eliminando datos guardados en el carrito
+                Carrito.getInstance().getProductos().clear();
+                startActivity(new Intent(getActivity(), Inicio.class));
+                getActivity().finish();
                 return true;
 
             default:

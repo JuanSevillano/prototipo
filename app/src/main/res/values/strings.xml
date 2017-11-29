@@ -12,9 +12,9 @@
     <string name="forgetPassword"><u>¿Olvidaste tu contraseña?</u></string>
     <string name="habitacion">Habitación</string>
     <string name="estudios">Estudio</string>
-    <string name="mesas">Mesas</string>
+    <string name="mesas">Cocina</string>
     <string name="entretenimiento">Entretenimiento</string>
-    <string name="puertas">Puertas</string>
+    <string name="puertas">Puertas plegables</string>
     <string name="auth_failed">Lo sentimos, tu usuario no se ha podido registrar</string>
     <string name="confirmar">Las contraseñas ingresadas no coinciden</string>
     <string name="detail_image">Producto Maderkit en vista detallada</string>
@@ -22,5 +22,8 @@
     <string name="user_profile">Perfil usuario</string>
     <string name="shortPassword">La contraseña debe tener más de 6 caracteres</string>
     <string name="wrongEmail">El correo ingresado no es válido</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

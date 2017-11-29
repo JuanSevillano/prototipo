@@ -30,6 +30,7 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
     private static final String TAG = " [INICIO PRINT] ";
     TextView continuar;
     EditText usr, psw, correoT, contraT, confirm;
+    Usuario usuario;
     static FirebaseUser user;
     static FirebaseAuth mAuth;
     static FirebaseAuth.AuthStateListener mAuthListener;
@@ -49,6 +50,7 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         setContentView(R.layout.activity_inicio);
         // Texto para continuar sin registro
         continuar = (TextView) findViewById(R.id.continuar);
+        usuario = Usuario.getInstance();
         // Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -57,6 +59,7 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d("TAG", "CUALQUIER COSA");
+                    usuario.setId(user.getUid());
                     Intent i = new Intent(Inicio.this,MainActivity.class);
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     startActivity(i);
@@ -69,8 +72,6 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
 
         // Colocando el fragment inicial
         if (savedInstanceState == null) {
-            Log.d("TAG", "savedInstanceState == null");
-
             android.app.FragmentManager manager = getFragmentManager();
             android.app.FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.initio, Principal.newInstance());
@@ -82,14 +83,9 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
 
     @Override
     public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
+        super.onBackPressed();
+        getSupportFragmentManager().beginTransaction().addToBackStack(null);
 
-        if (count >= 1) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getFragmentManager().popBackStack();
-        }
     }
     // Onclick to make Login fragment visible
     public void iniciar(View v) {
@@ -140,6 +136,8 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
                                                 Toast.LENGTH_SHORT).show();
                                     } else {
                                         Intent i = new Intent(getBaseContext(), MainActivity.class);
+                                        Usuario.getInstance().setId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        Usuario.getInstance().setNombre(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                         startActivity(i);
                                     }
 
@@ -187,11 +185,13 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(Inicio.this, R.string.auth_failed,
+                            Toast.makeText(Inicio.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Intent i = new Intent(getBaseContext(), MainActivity.class);
                             Log.d(TAG, String.valueOf(mAuth.getCurrentUser()));
+                            Usuario.getInstance().setId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            Usuario.getInstance().setNombre(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                             i.putExtra("usuario", String.valueOf(mAuth.getCurrentUser()));
                             startActivity(i);
                         }
@@ -228,6 +228,8 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

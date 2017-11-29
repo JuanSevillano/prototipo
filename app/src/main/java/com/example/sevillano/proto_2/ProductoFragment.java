@@ -20,9 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.example.sevillano.proto_2.dummy.DummyContent;
-import com.example.sevillano.proto_2.dummy.DummyContent.DummyItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
@@ -45,6 +43,7 @@ public class ProductoFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String TAG = "LIST-ITEM";
     private static final String BUNDLE_RECYCLER_LAYOUT = "ProductFragment.recycler.layout";
+    static String[] likeList;
     // Own variables
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -55,7 +54,7 @@ public class ProductoFragment extends Fragment {
     // Firebase
     FirebaseDatabase database;
     DatabaseReference myRef;
-    ArrayList<Producto> productos;
+    static ArrayList<Producto> productos;
     RecyclerView.Adapter adapter;
 
 
@@ -94,7 +93,7 @@ public class ProductoFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Toast like print
-                Toast.makeText(getContext(), query, Toast.LENGTH_SHORT);// show( "SearchOnQueryTextSubmit: " + query);
+                Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();// show( "SearchOnQueryTextSubmit: " + query);
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
@@ -119,14 +118,24 @@ public class ProductoFragment extends Fragment {
                 return true;
 
             case R.id.user_profile:
-
-
+                // Open submenu
                 return true;
+
+            case R.id.action_car:
+                // Starting shopping car activity
+                Intent intent = new Intent(getActivity(),Car.class);
+                startActivity(intent);
+                return true;
+
             case R.id.cerrar:
                 System.out.println("USUARIO = " + Inicio.user);
                 FirebaseAuth.getInstance().signOut();
-                System.out.println("USUARIO1 = " + Inicio.user);
-                startActivity(new Intent(getActivity(),Inicio.class));
+                // Eliminando datos guardados en el carrito
+                Carrito.getInstance().getProductos().clear();
+                TinyDB tinyDB = new TinyDB(getContext());
+                tinyDB.remove("carItems");
+
+                startActivity(new Intent(getActivity(), Inicio.class));
                 getActivity().finish();
                 return true;
 
@@ -188,9 +197,7 @@ public class ProductoFragment extends Fragment {
 
                         for (DataSnapshot ds : snapshot.child("likes").getChildren()) {
                             if (ds.getValue() != null) {
-                                likes[j] = ds.getValue(String.class);
-
-                                System.out.println("laics  "+likes[j]);
+                                likes[j] = (ds.getValue(String.class));
                                 j++;
                             }
                         }
@@ -238,6 +245,7 @@ public class ProductoFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {

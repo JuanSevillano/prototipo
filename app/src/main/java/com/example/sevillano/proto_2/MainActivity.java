@@ -2,6 +2,7 @@ package com.example.sevillano.proto_2;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -17,9 +19,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.example.sevillano.proto_2.dummy.DummyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -44,15 +47,13 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     private static final String TAG = "[ - MAIN ACTIVIY - ]";
     private BottomNavigationView navigation;
     // Firebase
-    FirebaseUser usuario;
-    static ArrayList<String> likes;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
         setSupportActionBar(toolbar);
         // Making BottomNavigation
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -71,8 +72,11 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
                 }
         ));
         // Setting initial fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1), "A").commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.filtros, FiltroFragment.newInstance(), "F").commit();
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1), "A").commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.filtros, FiltroFragment.newInstance(), "F").commit();
+        }
+        usuario = Usuario.getInstance();
     }
 
 
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     setFragment(ProductoFragment.newInstance(1));
+                    //getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("F")).commit();
                     return true;
                 case R.id.navigation_dashboard:
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.PDG.RANochero");
@@ -94,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
                     return true;
                 case R.id.navigation_notifications:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, TendenciaFragment.newInstance(), "T").commit();
-                    getSupportFragmentManager().beginTransaction().hide(getSupportFragmentManager().findFragmentByTag("F")).commit();
+                    //getSupportFragmentManager().beginTransaction().hide(getSupportFragmentManager().findFragmentByTag("F")).commit();
                     //getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("F"));
                     //setFragment(TendenciaFragment.newInstance());
                     return true;
@@ -131,21 +136,20 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     @Override
     public void onListFragmentInteraction(Producto item) {
 
-        // Every time a Product is clicked into recyclerView
         Intent intent = new Intent(getBaseContext(), VistaProducto.class);
-
+        intent.putExtra("descripcion", item.getDescripcion());
+        intent.putExtra("precio", item.getPrecio());
+        intent.putExtra("nombre", item.getNombre());
         intent.putExtra("fotos", item.getImagen());
 
         startActivity(intent);
-
-        //Toast.makeText(getBaseContext(), "Clicked Position = " + item.getNombre(), Toast.LENGTH_SHORT).show();
 
     }
 
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        System.out.println("ALOOOO : " + uri.toString());
     }
 
     @Override
@@ -153,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
 
         Intent i = new Intent(getBaseContext(), VistaTendencia.class);
         i.putExtra("fotos", item.getSrc());
+        i.putExtra("nombre", item.getNombre());
+        i.putExtra("descripcion", item.getDescripcion());
         startActivity(i);
 
     }

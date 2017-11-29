@@ -65,4 +65,8 @@ class Producto {
     public void setSrc(String[] src) {
         this.src = src;
     }
+
+    public String[] getLikes() {
+        return likes;
+    }
 }

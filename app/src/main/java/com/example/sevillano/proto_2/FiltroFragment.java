@@ -31,7 +31,7 @@ public class FiltroFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-           // RRECIBIENDO PARAMETROS EN CASO DE ESTAR NULLOS
+           // RRECIBIENDO PARAMETROS EN CASO DE NO ESTAR NULLOS
         }
     }
 
@@ -67,7 +67,6 @@ public class FiltroFragment extends Fragment{
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

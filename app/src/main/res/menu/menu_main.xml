@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_car"
-        android:icon="@drawable/car"
+        android:icon="@drawable/ic_carrito"
         android:title="@string/search"
         app:showAsAction="ifRoom" />
 

@@ -4,12 +4,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class VistaTendencia extends AppCompatActivity {
 
 
+    TextView nombre, descripcion;
     ViewPager viewPager;
     LinearLayout sliderDotsPanel;
     private int dotsCount;
@@ -19,11 +22,23 @@ public class VistaTendencia extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_tendencia);
+
+        // Getting texts
+        nombre = (TextView) findViewById(R.id.tendencia_name);
+        descripcion = (TextView) findViewById(R.id.tendencia_descripcion);
+
         // Getting slider and dots layout
         viewPager = (ViewPager) findViewById(R.id.sliderTendencias);
         sliderDotsPanel = (LinearLayout) findViewById(R.id.slider_dots);
+
+        // setting texts and photos from Itemclick
         Bundle extras = getIntent().getExtras();
         String[] fotos = (String[]) extras.get("fotos");
+        String desc = (String) extras.get("descripcion");
+        String name = (String) extras.get("nombre");
+        nombre.setText(name);
+        descripcion.setText(desc);
+        descripcion.setMovementMethod(new ScrollingMovementMethod());
         // Creating adapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(this,fotos);
 

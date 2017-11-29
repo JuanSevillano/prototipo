@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
-            android:background="#bebebe"
+            android:background="@color/filtros"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp">
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
-            android:background="@color/product_bck"
+            android:background="@color/filtros"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp">
@@ -52,30 +52,11 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mesas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:background="@color/product_bck"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="@string/mesas"
-                android:textAlignment="center"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/entretenimiento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
-            android:background="@color/product_bck"
+            android:background="@color/filtros"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp">
@@ -90,11 +71,30 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/mesas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:background="@color/filtros"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="@string/mesas"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/puertas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
-            android:background="@color/product_bck"
+            android:background="@color/filtros"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp">
