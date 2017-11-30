@@ -11,12 +11,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class VistaProducto extends AppCompatActivity {
 
+    Producto producto;
     TextView nombre, descripcion, precio, medidas, color;
     ViewPager viewPager;
     LinearLayout sliderDotsPanel;
@@ -54,20 +59,23 @@ public class VistaProducto extends AppCompatActivity {
         ));
         Bundle b = getIntent().getExtras();
         String[] photos = (String[]) b.get("fotos");
+        String[] likes = (String[]) b.get("likes");
+        String[] tags = (String[]) b.get("tags");
         String nombre = (String) b.get("nombre");
         String precio = (String) b.get("precio");
         String total = (String) b.get("descripcion");
         String descripcion = total.split("Medidas")[0];
         String medidas = total.split("Medidas")[1].split("Color")[0];
         String color = total.split("Medidas")[1].split("Color")[1];
+        producto = new Producto(nombre, descripcion,precio,medidas,photos,likes, tags);
         // Setting textview from bundle info
         this.nombre.setText(nombre);
         this.precio.setText(precio);
-        this.color.setText("Medidas " + medidas);
-        this.medidas.setText("Color " + color);
+        this.color.setText("Color " + color);
+        this.medidas.setText("Medidas " + medidas);
         this.descripcion.setText(descripcion);
         // Creating adapter
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this,photos);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this, photos);
 
         // Setting adapter
         viewPager.setAdapter(adapter);
@@ -111,11 +119,47 @@ public class VistaProducto extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigation.setSelectedItemId(R.id.mueble);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ten, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_car:
+                startActivity(new Intent(this,Car.class));
+                return true;
+
+            case R.id.cerrar:
+                System.out.println("USUARIO = " + Inicio.user);
+                FirebaseAuth.getInstance().signOut();
+                // Eliminando datos guardados en el carrito
+                Carrito.getInstance().getProductos().clear();
+                TinyDB tinyDB = new TinyDB(this);
+                tinyDB.remove("carItems");
+                startActivity(new Intent(this, Inicio.class));
+                finish();
+                return true;
+
+            case R.id.perfil:
+                startActivity(new Intent(this, Perfil.class));
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -140,5 +184,27 @@ public class VistaProducto extends AppCompatActivity {
         }
 
     };
+
+    public void producto(View v) {
+
+        if (v.getId() == R.id.detail_car) {
+
+            Carrito.getInstance().agregarProducto(producto);
+            // Saving data on cache with TinyDB
+            TinyDB tinyDB = new TinyDB(this);
+            // setting products
+            tinyDB.putListObject("carItems", Carrito.getInstance().getProductos());
+            Toast.makeText(this,"Agregado",Toast.LENGTH_SHORT).show();
+
+        } else if (v.getId() == R.id.detail_fav) {
+
+            TinyDB tinyDB = new TinyDB(this);
+            Usuario.getInstance().getLikes().add(producto);
+            tinyDB.putListObject("favoritos", Usuario.getInstance().getLikes());
+            Toast.makeText(this,"Liked",Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
 
 }

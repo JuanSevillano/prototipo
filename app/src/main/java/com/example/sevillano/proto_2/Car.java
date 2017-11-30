@@ -1,5 +1,6 @@
 package com.example.sevillano.proto_2;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -51,6 +54,32 @@ public class Car extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ten, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.cerrar:
+                System.out.println("USUARIO = " + Inicio.user);
+                FirebaseAuth.getInstance().signOut();
+                // Eliminando datos guardados en el carrito
+                Carrito.getInstance().getProductos().clear();
+                TinyDB tinyDB = new TinyDB(this);
+                tinyDB.remove("carItems");
+
+                startActivity(new Intent(this, Inicio.class));
+                finish();
+                return true;
+
+            case R.id.perfil:
+                startActivity(new Intent(this,Perfil.class));
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

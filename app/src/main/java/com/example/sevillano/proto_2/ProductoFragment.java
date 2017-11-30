@@ -134,9 +134,7 @@ public class ProductoFragment extends Fragment {
                 Carrito.getInstance().getProductos().clear();
                 TinyDB tinyDB = new TinyDB(getContext());
                 tinyDB.remove("carItems");
-
                 startActivity(new Intent(getActivity(), Inicio.class));
-                getActivity().finish();
                 return true;
 
             case R.id.perfil:
@@ -166,7 +164,7 @@ public class ProductoFragment extends Fragment {
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("productos");
             // Set Adapter w/ empty List
-            adapter = new MyProductoAdapter(productos, mListener, getContext());
+            adapter = new MyProductoAdapter(productos, getContext());
             recyclerView.setAdapter(adapter);
             // Read from the database
             myRef.addValueEventListener(new ValueEventListener() {

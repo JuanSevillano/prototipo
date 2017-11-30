@@ -18,16 +18,10 @@
         android:theme="@menu/menu_main" />
 
     <FrameLayout
-        android:id="@+id/filtros"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/my_toolbar" />
-
-    <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="410dip"
-        android:layout_below="@+id/filtros" />
+        android:layout_height="4500dp"
+        android:layout_below="@+id/my_toolbar" />
 
 
     <android.support.design.widget.BottomNavigationView

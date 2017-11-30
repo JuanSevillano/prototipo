@@ -1,6 +1,7 @@
 package com.example.sevillano.proto_2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -30,19 +31,18 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.ViewHolder> {
 
-    private final List<Producto> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private ArrayList<Producto> mValues;
     private Context context;
 
 
-    public MyProductoAdapter(List<Producto> items, OnListFragmentInteractionListener listener, Context context) {
+    public MyProductoAdapter(ArrayList<Producto> items, Context context) {
         mValues = items;
-        mListener = listener;
         this.context = context;
 
     }
@@ -64,6 +64,15 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
         holder.precio.setText(String.valueOf(mValues.get(position).getPrecio()));
         //holder.imagen.setImageResource(mValues.get(position).getImagen());
         holder.nombre.setText(mValues.get(position).getNombre());
+
+        for (int i = 0; i < Usuario.getInstance().getLikes().size(); i++) {
+            if (holder.mItem.equals(Usuario.getInstance().getLikes().get(i))) {
+                holder.button.setImageResource(R.drawable.ic_likeon);
+            } else {
+                holder.button.setImageResource(R.drawable.ic_like);
+            }
+        }
+
         // Cuando se hace click en agregar al carrito
         holder.car.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,30 +83,32 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
                 // Saving data on cache with TinyDB
                 TinyDB tinyDB = new TinyDB(context);
                 // setting products
-                tinyDB.putListObject("carItems",Carrito.getInstance().getProductos());
+                tinyDB.putListObject("carItems", Carrito.getInstance().getProductos());
                 // Setting total
-                tinyDB.putFloat("total",car.precioTotal());
+                tinyDB.putFloat("total", car.precioTotal());
                 // Feedback
-                Toast.makeText(context,"Agregado al carrito", Toast.LENGTH_SHORT).show();
+                holder.car.setImageResource(R.drawable.ic_caron);
             }
         });
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
+
                 // Verificando si existe el usuario
                 String Uid = Usuario.getInstance().getId();
+
                 if (Uid != null) {
+                    // Saving online w/ Firebase
                     database.getReference("productos").child(String.valueOf(position)).child("likes").child(Uid).setValue(Uid);
-                    // Verificando que exista el like
-                    //if (Usuario.getInstance().getLikes().get().equals(mValues.get(position).getNombre())) {
-                    // Dislike
-                    //                    holder.button.setImageResource(R.drawable.ic_like);
-                    //                  } else {
-                    // Like
-                    Usuario.getInstance().getLikes().add(Uid);
+
+                    // Saving data on cache with TinyDB
+                    TinyDB tinyDB = new TinyDB(context);
+                    Usuario.getInstance().getLikes().add(holder.mItem);
+                    tinyDB.putListObject("favoritos", Usuario.getInstance().getLikes());
+                    notifyDataSetChanged();
                     holder.button.setImageResource(R.drawable.ic_likeon);
-                    //              }
+
 
                 } else {
                     // No hay usuario logeado por eso se le notifica
@@ -108,9 +119,17 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+
+                Intent intent = new Intent(context, VistaProducto.class);
+                intent.putExtra("descripcion", holder.mItem.getDescripcion());
+                intent.putExtra("precio", holder.mItem.getPrecio());
+                intent.putExtra("nombre", holder.mItem.getNombre());
+                intent.putExtra("fotos", holder.mItem.getImagen());
+                intent.putExtra("likes", holder.mItem.getLikes());
+                intent.putExtra("tags", holder.mItem.getTags());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
             }
         });
     }
@@ -118,6 +137,10 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public void setmValues(ArrayList<Producto> mValues) {
+        this.mValues = mValues;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -145,4 +168,5 @@ public class MyProductoAdapter extends RecyclerView.Adapter<MyProductoAdapter.Vi
             return super.toString() + " '" + nombre.getText() + "'";
         }
     }
+
 }

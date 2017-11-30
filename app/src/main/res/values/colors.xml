@@ -3,7 +3,7 @@
     <color name="colorPrimary">#CA611F</color>
     <color name="colorPrimaryDark">#C41C00</color>
     <color name="colorPrimaryLight">#D07414</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#FFFF</color>
     <color name="filtros">#ffa13b</color>
     <color name="product_bck">#3e000000</color>
     <color name="tend_description">#bababa</color>

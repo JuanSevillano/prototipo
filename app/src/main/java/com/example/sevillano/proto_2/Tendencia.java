@@ -20,9 +20,10 @@ class Tendencia {
 
     }
 
-    Tendencia(String nombre, String descripcion){
+    Tendencia(String nombre, String descripcion, String[] fotos){
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.src = fotos;
     }
 
     String getNombre(){

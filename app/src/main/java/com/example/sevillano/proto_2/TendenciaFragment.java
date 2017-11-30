@@ -62,8 +62,6 @@ public class TendenciaFragment extends Fragment {
         }
         setHasOptionsMenu(true);
         // Deleting Filters
-        FragmentManager fr = getActivity().getSupportFragmentManager();
-        fr.beginTransaction().remove(fr.findFragmentById(R.id.filtros));
     }
 
     @Override

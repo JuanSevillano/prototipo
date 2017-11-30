@@ -42,7 +42,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements ProductoFragment.OnListFragmentInteractionListener, FiltroFragment.OnFragmentInteractionListener, TendenciaFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements Feed.OnFragmentInteractionListener, ProductoFragment.OnListFragmentInteractionListener, FiltroFragment.OnFragmentInteractionListener, TendenciaFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = "[ - MAIN ACTIVIY - ]";
     private BottomNavigationView navigation;
@@ -72,9 +72,8 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
                 }
         ));
         // Setting initial fragment
-        if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, ProductoFragment.newInstance(1), "A").commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.filtros, FiltroFragment.newInstance(), "F").commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().add(R.id.content, Feed.newInstance(), "A").commit();
         }
         usuario = Usuario.getInstance();
     }
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    setFragment(ProductoFragment.newInstance(1));
+                    setFragment(Feed.newInstance());
                     //getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("F")).commit();
                     return true;
                 case R.id.navigation_dashboard:
@@ -141,11 +140,16 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
         intent.putExtra("precio", item.getPrecio());
         intent.putExtra("nombre", item.getNombre());
         intent.putExtra("fotos", item.getImagen());
-
+        intent.putExtra("likes", item.getLikes());
+        intent.putExtra("tags", item.getTags());
         startActivity(intent);
 
     }
 
+    public void filtrar(View v) {
+        Feed f = (Feed) getSupportFragmentManager().findFragmentByTag("A");
+        f.filtrando(v.getId());
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -153,14 +157,17 @@ public class MainActivity extends AppCompatActivity implements ProductoFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(Tendencia item) {
+    public void onFragmentInteraction(Producto uri) {
+        System.out.println("ALOOOO : " + uri.toString());
+    }
 
+    @Override
+    public void onListFragmentInteraction(Tendencia item) {
         Intent i = new Intent(getBaseContext(), VistaTendencia.class);
         i.putExtra("fotos", item.getSrc());
         i.putExtra("nombre", item.getNombre());
         i.putExtra("descripcion", item.getDescripcion());
         startActivity(i);
-
     }
 
 

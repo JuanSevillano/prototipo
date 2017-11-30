@@ -51,6 +51,9 @@ public class Inicio extends AppCompatActivity implements Login.OnFragmentInterac
         // Texto para continuar sin registro
         continuar = (TextView) findViewById(R.id.continuar);
         usuario = Usuario.getInstance();
+        TinyDB tinyDB = new TinyDB(this);
+        usuario.setLikes(tinyDB.getListObject("favoritos",Producto.class));
+        usuario.setGuardados(tinyDB.getListObject("guardados",Tendencia.class));
         // Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {

@@ -6,62 +6,82 @@
     android:layout_height="match_parent"
     tools:context="com.example.sevillano.proto_2.VistaTendencia">
 
-    <RelativeLayout
-        android:id="@+id/slider_group"
-        android:layout_width="368dp"
-        android:layout_height="360dp">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/sliderTendencias"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/slider_dots"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dip"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/slider" />
-
-
-    </RelativeLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_ten"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:background="@drawable/bck_toolbar"
+        android:elevation="4dp"
+        app:title="Perfil"
+        app:titleTextColor="@android:color/white" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dip"
+        android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_group">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ten">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tendencia_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dip"
-                android:layout_marginTop="10dp"
-                android:textColor="#9c9c9c"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/slider_group" />
+            <RelativeLayout
+                android:id="@+id/slider_group"
+                android:layout_width="match_parent"
+                android:layout_height="360dp">
 
-            <ImageView
-                android:id="@+id/saveTendencia"
-                android:layout_width="wrap_content"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/sliderTendencias"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/slider_dots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="15dip"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/slider" />
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:srcCompat="@drawable/ic_save" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tendencia_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="2"
+                    android:textColor="#9c9c9c"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/slider_group" />
+
+                <ImageView
+                    android:id="@+id/saveTendencia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.3"
+                    android:onClick="guardar"
+                    app:srcCompat="@drawable/ic_save" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tendencia_descripcion"
@@ -69,9 +89,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
                 android:scrollbars="vertical"
                 android:textColor="@color/detail"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 

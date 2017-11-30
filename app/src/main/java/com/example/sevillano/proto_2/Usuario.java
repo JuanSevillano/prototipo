@@ -1,5 +1,6 @@
 package com.example.sevillano.proto_2;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 class Usuario {
 
 
-    private String nombre, id;
-    private ArrayList<String> likes;
-    private ArrayList<String> guardados;
+    private String nombre, id, email;
+    private ArrayList<Object> likes;
+    private ArrayList<Object> guardados;
     private static Usuario ourInstance = new Usuario();
 
     static Usuario getInstance() {
@@ -32,21 +33,11 @@ class Usuario {
             System.out.println(" ENTRANDO ");
             id = FirebaseAuth.getInstance().getCurrentUser().getUid();
             nombre = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            // Creando arreglos del usuario
+            email = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             likes = new ArrayList<>();
-            guardados = new ArrayList<String>();
+            guardados = new ArrayList<>();
             // Cargando likes desde los productos
-            if (ProductoFragment.productos != null) {
-                for (int i = 0; i < ProductoFragment.productos.size(); i++) {
-                    for (int j = 0; j < ProductoFragment.productos.get(i).getLikes().length; j++) {
-                        // Verificando que el like del producto coincida con el Uid Del usuario
-                        if (ProductoFragment.productos.get(i).getLikes()[j].equals(Usuario.getInstance().getId())) {
-                            likes.add(ProductoFragment.productos.get(i).getNombre());
-                        }
-                    }
-                }
-            }
-            System.out.println("LIKES USUARIO : " + likes);
+
 
         } else {
             System.out.println("THERES NOT USER LOGED");
@@ -62,11 +53,11 @@ class Usuario {
         return id;
     }
 
-    public ArrayList<String> getLikes() {
+    public ArrayList<Object> getLikes() {
         return likes;
     }
 
-    public ArrayList<String> getGuardados() {
+    public ArrayList<Object> getGuardados() {
         return guardados;
     }
 
@@ -78,11 +69,15 @@ class Usuario {
         this.id = id;
     }
 
-    public void setLikes(ArrayList<String> likes) {
+    public void setLikes(ArrayList<Object> likes) {
         this.likes = likes;
     }
 
-    public void setGuardados(ArrayList<String> guardados) {
+    public void setGuardados(ArrayList<Object> guardados) {
         this.guardados = guardados;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

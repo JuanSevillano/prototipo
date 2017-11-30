@@ -69,4 +69,8 @@ class Producto {
     public String[] getLikes() {
         return likes;
     }
+
+    public String[] getTags() {
+        return tags;
+    }
 }

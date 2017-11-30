@@ -23,9 +23,10 @@
 
         <TextView
             android:id="@+id/product_nombre"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="2"
             android:layout_margin="@dimen/text_margin"
             android:textColor="@android:color/white"
             android:text="Cama Doble Wengue  -"
@@ -33,7 +34,8 @@
 
         <TextView
             android:id="@+id/product_precio"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="0dp"
@@ -43,7 +45,8 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:id="@+id/product_fav"
             android:layout_gravity="center"
@@ -52,12 +55,13 @@
             app:srcCompat="@drawable/ic_like" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:id="@+id/product_car"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_carrito" />
+            app:srcCompat="@drawable/anadido" />
     </LinearLayout>
 </RelativeLayout>
